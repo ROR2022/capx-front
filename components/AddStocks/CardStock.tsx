@@ -14,7 +14,6 @@ import { addStockToPortfolio } from "@/api/apiPortfolio";
 import { DataUser, RootState } from "@/redux/userSlice";
 import { getUniqueId } from "@/dataEnv/myLib";
 
-
 interface CardStockProps {
   dataCard: any;
 }
@@ -96,15 +95,17 @@ const CardStock: FC<CardStockProps> = ({ dataCard }) => {
         <p className="text-sm text-gray-500">Currency: {currency}</p>
         <p className="text-sm text-gray-500">Buy Price: $ {c}</p>
         {isDashboard && (
-          <p className="text-sm text-gray-500">Quantity: {quantity || 1}</p>
+          <>
+            <p className="text-sm text-gray-500">Quantity: {quantity || 1}</p>
+            <p className={isDashboard ? "text-sm" : "text-sm text-gray-500"}>
+              Current Price:{" "}
+              <span className={isPositive ? "text-success" : "text-danger"}>
+                $ {currentPrice}
+              </span>
+            </p>
+            <p className="text-sm">Date: {formatMyDate(date)}</p>
+          </>
         )}
-        <p className={isDashboard ? "text-sm" : "text-sm text-gray-500"}>
-          Current Price:{" "}
-          <span className={isPositive ? "text-success" : "text-danger"}>
-            $ {currentPrice}
-          </span>
-        </p>
-        {isDashboard && <p className="text-sm">Date: {formatMyDate(date)}</p>}
       </CardHeader>
       <CardBody className="overflow-visible py-2">
         <div
