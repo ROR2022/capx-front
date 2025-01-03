@@ -1,8 +1,8 @@
-# Next.js & NextUI Template
+# Portfolio Tracker Application - CapX Challenge
 
-This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
+The Portfolio Tracker application is designed to help users manage their stock holdings effectively. It allows users to add, view, edit, and delete stocks, track their portfolio value based on real-time stock prices, and view key portfolio metrics on a dashboard.
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
+[Try it](https://capx-front.vercel.app/)
 
 ## Technologies Used
 
@@ -16,17 +16,17 @@ This is a template for creating applications using Next.js 14 (app directory) an
 
 ## How to Use
 
-### Use the template with create-next-app
+### Clone the project
 
-To create a new project based on this template using `create-next-app`, run the following command:
+Run the following command:
 
 ```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
+git clone https://github.com/ROR2022/capx-front.git
 ```
 
 ### Install dependencies
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
+Using `npm`:
 
 ```bash
 npm install
@@ -37,16 +37,6 @@ npm install
 ```bash
 npm run dev
 ```
-
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
-```bash
-public-hoist-pattern[]=*@nextui-org/*
-```
-
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
 
 ## License
 
