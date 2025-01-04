@@ -55,11 +55,16 @@ const Metrics: FC<MetricsProps> = ({ dataStocks }) => {
       );
       const portafolioDistribution: Array<TPortafolioDistribution> =
         dataStocks.map((stock) => {
+          const validCurrentPrice =
+            stock.currentPrice && !isNaN(stock.currentPrice)
+              ? stock.currentPrice
+              : stock.c;
+
           return {
             symbol: stock.symbol,
             percent: Number(
               (
-                ((stock.currentPrice * stock.quantity) / totalValue) *
+                ((validCurrentPrice * stock.quantity) / totalValue) *
                 100
               ).toFixed(2)
             ),
@@ -140,7 +145,8 @@ const Metrics: FC<MetricsProps> = ({ dataStocks }) => {
                   <Card key={item.symbol} className="mt-2">
                     <CardBody>
                       <p>
-                        <span className="text-primary">{item.symbol}:</span> <span className="text-success">{item.percent} %</span>
+                        <span className="text-primary">{item.symbol}:</span>{" "}
+                        <span className="text-success">{item.percent} %</span>
                       </p>
                     </CardBody>
                   </Card>

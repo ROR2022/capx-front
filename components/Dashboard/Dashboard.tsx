@@ -180,11 +180,15 @@ const Dashboard = () => {
               ...stock,
               isDashboard: true,
               date: new Date().getTime(),
-              currentPrice: findDataPrice ? findDataPrice.c : stock.c,
+              currentPrice:
+                findDataPrice && findDataPrice.c && findDataPrice.c > 0
+                  ? findDataPrice.c
+                  : stock.c,
               quantity: stock.quantity ? stock.quantity : 1,
             };
           });
-
+          //console.log("tempStocks: ", tempStocks);
+          
           setDataStocks(tempStocks.reverse());
         }
       }
