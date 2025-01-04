@@ -27,3 +27,17 @@ export const loginUser = async (data) => {
     return error.response;
   }
 };
+
+export const validateToken = async (token) => {
+  try {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    const response = await axios.get(`${hostURL}/api/auth/validateToken`);
+
+    return response.data;
+  } catch (error) {
+    //eslint-disable-next-line
+    console.log("error validateToken:..", error.response.data);
+
+    return error.response.data;
+  }
+}
