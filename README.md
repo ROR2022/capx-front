@@ -32,6 +32,18 @@ Using `npm`:
 npm install
 ```
 
+### ENVIROMENT VARIABLES
+
+Create .env.local file like this:
+NEXT_PUBLIC_DEV_ENV=http://localhost:5000
+NEXT_PUBLIC_PRD_ENV=https://capx-api-production.up.railway.app
+NEXT_PUBLIC_NODE_ENV=development
+NEXT_PUBLIC_LOCALSTORAGE_KEY=
+NEXT_PUBLIC_ROLE_ADMIN=admin
+NEXT_PUBLIC_ROLE_DEFAULT=user
+NEXT_PUBLIC_USER_STATUS_DEFAULT=active
+NEXT_PUBLIC_FINNHUB_APIKEY=
+
 ### Run the development server
 
 ```bash
