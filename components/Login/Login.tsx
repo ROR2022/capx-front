@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { FC, Suspense, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useLocalStorage, useMediaQuery } from "usehooks-ts";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
@@ -16,7 +16,7 @@ import { CircularProgress } from "@nextui-org/progress";
 
 import { loginUser } from "@/api/apiUser";
 import { RootState } from "@/redux/store";
-import { DataUser, setUser } from "@/redux/userSlice";
+import { DataUser, initialState, setUser } from "@/redux/userSlice";
 import {
   LOCALSTORAGE_KEY,
   COOKIE_KEY,
@@ -24,6 +24,52 @@ import {
   ROLE_ADMIN,
 } from "@/dataEnv/dataEnv";
 import { title } from "@/components/primitives";
+//import { ro } from "date-fns/locale";
+
+interface GetParamsLoginProps {
+  setIsClearData: (isClearData: boolean) => void;
+}
+
+const GetParamsLogin: FC<GetParamsLoginProps> = ({ setIsClearData }) => {
+  const params = useSearchParams();
+  //const router = useRouter();
+  const isClearData = params.get("clearData");
+
+  const user = useSelector((state: RootState) => state.user);
+  //const [selectedLanguage, setSelectedLanguage] = React.useState<string>("en");
+  const [storedDataUser, setStoredDataUser] = useLocalStorage<DataUser>(
+    LOCALSTORAGE_KEY,
+    user
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!storedDataUser.access_token) {
+      //eslint-disable-next-line
+      console.log("user is logged out");
+    }
+  }, [storedDataUser]);
+
+  useEffect(() => {
+    if (isClearData === "true") {
+      console.log(
+        "remove dataUser from localstorage clearData:..",
+        isClearData,
+      );
+      setIsClearData(true);
+      handleLogOut();
+    }
+  }, [isClearData]);
+
+  const handleLogOut = () => {
+    dispatch(setUser(initialState));
+    setStoredDataUser(initialState);
+    Cookies.remove(COOKIE_KEY);
+    //router.push("/login");
+  };
+
+  return <></>;
+};
 
 type LoginValues = {
   email: string;
@@ -60,6 +106,7 @@ const Login = () => {
   const [selectedLanguage, setSelectedLanguage] = React.useState<string>("en");
   const [errorLogin, setErrorLogin] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [isClearData, setIsClearData] = React.useState<boolean>(false);
 
   const [storedDataUser, setStoredDataUser] = useLocalStorage<DataUser>(
     LOCALSTORAGE_KEY,
@@ -69,9 +116,10 @@ const Login = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (storedDataUser && storedDataUser.access_token) {
+    if (storedDataUser && storedDataUser.access_token !== "") {
       //dispatch(setUser(storedDataUser.dataUser));
-      router.push("/");
+      //console.log("storedDataUser", storedDataUser);
+      //router.push("/");
     }
     if (storedDataUser && storedDataUser.language) {
       setSelectedLanguage(storedDataUser.language);
@@ -111,6 +159,7 @@ const Login = () => {
         Cookies.set(COOKIE_KEY, data.dataUser.access_token);
         dispatch(setUser(data.dataUser));
         setStoredDataUser(data.dataUser);
+        router.push("/dashboard");
       } else {
         //eslint-disable-next-line
         console.log("Error in loginUser", response);
@@ -136,9 +185,19 @@ const Login = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
+      <Suspense fallback={<div>Loading...</div>}>
+        <GetParamsLogin setIsClearData={setIsClearData} />
+      </Suspense>
       <h1 className={title()}>
         {selectedLanguage === "en" ? "Login" : "Iniciar"}
       </h1>
+      {isClearData && (
+        <div>
+          <p className="text-danger my-4 text-center">
+            Your sesion has expired please login again...
+          </p>
+        </div>
+      )}
       <div className="my-3">
         <Link className="text-sm" color="secondary" href="/register">
           {selectedLanguage === "es"

@@ -8,7 +8,7 @@ import { validateToken } from "./api/apiUser";
 // Define las rutas públicas donde los usuarios no autenticados pueden navegar
 const publicRoutes = ["/", "/login"];
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Verifica si el usuario está autenticado
@@ -29,7 +29,8 @@ export function middleware(request: NextRequest) {
   //validar token
   if (isAuthenticated) {
     const token = request.cookies.get(COOKIE_KEY);
-    console.log('inicia validacion de token en el Middleware:..', token);
+
+    console.log("inicia validacion de token en el Middleware:..");
     const value = token?.value || null;
 
     if (!value) {
@@ -40,31 +41,19 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    /* validateToken(value)
-      .then((response) => {
-        const { isValid } = response;
+    const response = await validateToken(value);
+    const { isValid } = response;
 
-        console.log("response validate token: ", response);
+    if (isValid) {
+      return NextResponse.next();
+    } else {
+      console.log("token invalido, redirigiendo a login");
 
-        if (isValid) {
-          //return NextResponse.next();
-        } else {
-          //const loginUrl = new URL("/login", request.url);
+      const loginUrl = new URL("/login?clearData=true", request.url);
 
-          //return NextResponse.redirect(loginUrl);
-        }
-      })
-      .catch((error) => {
-        console.error("error validate token: ", error);
-
-        //const loginUrl = new URL("/login", request.url);
-
-        //return NextResponse.redirect(loginUrl);
-      }); */
+      return NextResponse.redirect(loginUrl);
+    }
   }
-
-  // Permitir el acceso a rutas protegidas si está autenticado
-  return NextResponse.next();
 }
 
 // Configura las rutas donde se aplica el middleware
