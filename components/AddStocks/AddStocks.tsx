@@ -1,5 +1,5 @@
 "use client";
-import { Card, CardBody, Input } from "@nextui-org/react";
+import { Button, Card, CardBody, Input } from "@nextui-org/react";
 import { CircularProgress } from "@nextui-org/react";
 import React from "react";
 import { IoSearch } from "react-icons/io5";
@@ -18,7 +18,8 @@ const AddStocks = () => {
   const [error, setError] = React.useState<string>("");
   const isMobile = useMediaQuery("(max-width: 640px)");
 
-  const handleSearch = async () => {
+  const handleSearch = async (e: any) => {
+    e.preventDefault();
     //console.log("searching:..", search);
     if (search === "") return;
 
@@ -71,24 +72,22 @@ const AddStocks = () => {
         style={{ width: isMobile ? "100%" : "50%" }}
       >
         <CardBody>
-          <div className="flex justify-center items-center gap-2">
-            <Input
-              label="Search Stock"
-              placeholder="Search by symbol, name, ticker, ISIN or Cusip"
-              value={search}
-              onChange={handleChangeSearch}
-            />
-            <IoSearch
-              className="text-2xl"
-              style={{ cursor: "pointer" }}
-              onClick={handleSearch}
-            />
-            <IoMdClose
-              className="text-2xl"
-              style={{ cursor: "pointer" }}
-              onClick={handleClearSearch}
-            />
-          </div>
+          <form onSubmit={handleSearch}>
+            <div className="flex justify-center items-center gap-2">
+              <Input
+                label="Search Stock"
+                placeholder="Search by symbol, name, ticker, ISIN or Cusip"
+                value={search}
+                onChange={handleChangeSearch}
+              />
+              <Button type="submit">
+                <IoSearch className="text-2xl" style={{ cursor: "pointer" }} />
+              </Button>
+              <Button type="button" onPress={handleClearSearch}>
+                <IoMdClose className="text-2xl" style={{ cursor: "pointer" }} />
+              </Button>
+            </div>
+          </form>
         </CardBody>
       </Card>
       {loading && (

@@ -153,7 +153,7 @@ const Dashboard = () => {
       setLoading(true);
       const response = await getDataDashboardByUser(user.access_token);
 
-      //console.log("dataDashboard response: ", response);
+      console.log("dataDashboard response: ", response);
       const { data, error } = response;
 
       if (data && !error) {
@@ -162,7 +162,15 @@ const Dashboard = () => {
         if (error) {
           console.error("Error in fetchDataPortfolio: ", error);
           setLoading(false);
-          setErrorMessage(`${error} - ${message}, please try login again.`);
+          //TypeError: Cannot read properties of null (reading 'stocks')
+          if (
+            error ===
+            "TypeError: Cannot read properties of null (reading 'stocks')"
+          ) {
+            setErrorMessage("No stocks found.");
+            return;
+          }
+          setErrorMessage(`${error} - ${message ? message : "error"}`);
 
           return;
         }
@@ -243,7 +251,7 @@ const Dashboard = () => {
         </div>
       )}
       {errorMessage && (
-        <p className="text-red-500 text-center text-xs">{errorMessage}</p>
+        <p className="text-red-500 text-center text-xs mt-4">{errorMessage}</p>
       )}
       {dataStocks.length > 0 && <Metrics dataStocks={dataStocks} />}
       {dataStocks.length > 0 && (
