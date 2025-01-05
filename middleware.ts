@@ -6,7 +6,7 @@ import { COOKIE_KEY } from "./dataEnv/dataEnv";
 import { validateToken } from "./api/apiUser";
 
 // Define las rutas públicas donde los usuarios no autenticados pueden navegar
-const publicRoutes = ["/", "/login"];
+const publicRoutes = ["/", "/login", "/register"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
