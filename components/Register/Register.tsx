@@ -15,6 +15,7 @@ import { CircularProgress } from "@nextui-org/progress";
 import { useDispatch } from "react-redux";
 import { useMediaQuery } from "usehooks-ts";
 
+import Cookies from "js-cookie";
 import { registerUser } from "@/api/apiUser";
 import {
   COOKIE_KEY,
@@ -24,7 +25,6 @@ import {
 } from "@/dataEnv/dataEnv";
 import { DataUser, initialState, setUser } from "@/redux/userSlice";
 import { title } from "@/components/primitives";
-import Cookies from "js-cookie";
 
 const initFormValues = {
   name: "",
@@ -37,7 +37,7 @@ const initFormValues = {
 const validationSchema = Yup.object({
   name: Yup.string()
     .required("Required")
-    .min(3, "Name is too short - should be 3 chars minimum.")
+    .min(4, "Name is too short - should be 3 chars minimum.")
     .max(50, "Name is too long - should be 50 chars maximum."),
   email: Yup.string()
     .email("Invalid email address")
@@ -123,7 +123,7 @@ const Register = () => {
 
       setLoading(false);
       //eslint-disable-next-line
-      //console.log("resRegisterUser: ", resRegisterUser);
+      console.log("resRegisterUser: ", resRegisterUser);
       const { data, error } = resRegisterUser;
 
       if (data && !error) {

@@ -160,7 +160,7 @@ const Dashboard = () => {
         const { stocks, dataPrice, error, message } = data;
 
         if (error) {
-          console.error("Error in fetchDataPortfolio: ", error);
+          console.log("Error in fetchDataPortfolio: ", error);
           setLoading(false);
           //TypeError: Cannot read properties of null (reading 'stocks')
           if (
