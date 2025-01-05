@@ -17,12 +17,14 @@ import { useMediaQuery } from "usehooks-ts";
 
 import { registerUser } from "@/api/apiUser";
 import {
+  COOKIE_KEY,
   LOCALSTORAGE_KEY,
   ROLE_DEFAULT,
   USER_STATUS_DEFAULT,
 } from "@/dataEnv/dataEnv";
 import { DataUser, initialState, setUser } from "@/redux/userSlice";
 import { title } from "@/components/primitives";
+import Cookies from "js-cookie";
 
 const initFormValues = {
   name: "",
@@ -128,6 +130,7 @@ const Register = () => {
         //eslint-disable-next-line
         //console.log("User registered successfully: ", data);
 
+        Cookies.set(COOKIE_KEY, data.access_token);
         dispatch(setUser(data));
         setStoredDataUser(data);
         router.push("/");
