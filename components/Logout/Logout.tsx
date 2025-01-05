@@ -45,7 +45,7 @@ const Logout = () => {
             ? "Are you sure you want to logout?"
             : "¿Estás seguro de que quieres cerrar sesión?"}
         </p>
-        <Button color="danger" onClick={handleLogOut}>
+        <Button color="danger" onPress={handleLogOut}>
           Logout
         </Button>
       </CardBody>

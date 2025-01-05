@@ -14,5 +14,8 @@ export const ROLE_DEFAULT = process.env.NEXT_PUBLIC_ROLE_DEFAULT || "user";
 export const USER_STATUS_DEFAULT = process.env.NEXT_PUBLIC_USER_STATUS_DEFAULT || "active";
 export const FINNHUB_APIKEY = process.env.NEXT_PUBLIC_FINNHUB_APIKEY || "no key";
 
-export const MAIN_APP_LOGO = "/mainAppLogo.jpg";
+export const MAIN_APP_LOGO = "/images/mainAppLogo.jpg";
 export const MAIN_APP_NAME = "CapX.live";
+
+export const LOGO_LOGIN = "/images/logoLogin.png";
+export const LOGO_REGISTER = "/images/logoRegister.jpg";

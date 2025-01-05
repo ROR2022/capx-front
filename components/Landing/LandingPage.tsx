@@ -3,11 +3,21 @@ import { useRouter } from "next/navigation";
 import { useMediaQuery, useLocalStorage } from "usehooks-ts";
 import React, { useEffect } from "react";
 import { Card, CardFooter, Image, Button } from "@nextui-org/react";
+//import Image from "next/image";
 
 import { title } from "../primitives";
 
-import { LOCALSTORAGE_KEY, MAIN_APP_NAME } from "@/dataEnv/dataEnv";
+import {
+  LOCALSTORAGE_KEY,
+  MAIN_APP_NAME,
+  LOGO_LOGIN,
+  LOGO_REGISTER,
+  MAIN_APP_LOGO,
+} from "@/dataEnv/dataEnv";
 import { DataUser, initialState } from "@/redux/userSlice";
+import ImageLogin from "@/public/logoLogin.png";
+import ImageRegister from "@/public/logoRegister.jpg";
+
 
 const LandingPage = () => {
   const router = useRouter();
@@ -41,7 +51,7 @@ const LandingPage = () => {
             alt="Logo Login"
             className="object-cover"
             height={isMobile ? 200 : 350}
-            src="/logoLogin.png"
+            src={LOGO_LOGIN}
             width={isMobile ? 200 : 350}
           />
           <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
@@ -63,7 +73,7 @@ const LandingPage = () => {
             alt="Logo Register"
             className="object-cover"
             height={isMobile ? 200 : 350}
-            src="/logoRegister.jpg"
+            src={LOGO_REGISTER}
             width={isMobile ? 200 : 350}
           />
           <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">

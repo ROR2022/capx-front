@@ -8,7 +8,7 @@ import { validateToken } from "./api/apiUser";
 // Define las rutas públicas donde los usuarios no autenticados pueden navegar
 const publicRoutes = ["/", "/login"];
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Verifica si el usuario está autenticado
@@ -29,22 +29,38 @@ export async function middleware(request: NextRequest) {
   //validar token
   if (isAuthenticated) {
     const token = request.cookies.get(COOKIE_KEY);
-    //console.log('inicia validacion de token en el Middleware:..', token);
-    const response: any = await validateToken(token?.value);
+    console.log('inicia validacion de token en el Middleware:..', token);
+    const value = token?.value || null;
 
-    //console.log("response validate token: ", response);
-
-    const { isValid } = response;
-
-    if (response && isValid) {
-      return NextResponse.next();
-    } else {
-      console.log("token invalido, redirigiendo a login", response);
+    if (!value) {
+      console.log("token invalido, redirigiendo a login");
 
       const loginUrl = new URL("/login", request.url);
 
       return NextResponse.redirect(loginUrl);
     }
+
+    /* validateToken(value)
+      .then((response) => {
+        const { isValid } = response;
+
+        console.log("response validate token: ", response);
+
+        if (isValid) {
+          //return NextResponse.next();
+        } else {
+          //const loginUrl = new URL("/login", request.url);
+
+          //return NextResponse.redirect(loginUrl);
+        }
+      })
+      .catch((error) => {
+        console.error("error validate token: ", error);
+
+        //const loginUrl = new URL("/login", request.url);
+
+        //return NextResponse.redirect(loginUrl);
+      }); */
   }
 
   // Permitir el acceso a rutas protegidas si está autenticado
@@ -53,5 +69,5 @@ export async function middleware(request: NextRequest) {
 
 // Configura las rutas donde se aplica el middleware
 export const config = {
-  matcher: "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  matcher: ["/((?!api|_next/static|_next/image|images|favicon.ico).*)"],
 };
