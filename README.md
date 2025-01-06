@@ -2,7 +2,8 @@
 
 The Portfolio Tracker application is designed to help users manage their stock holdings effectively. It allows users to add, view, edit, and delete stocks, track their portfolio value based on real-time stock prices, and view key portfolio metrics on a dashboard.
 
-[Try it](https://capx-front.vercel.app/)
+- [Try it](https://capx-front.vercel.app/)
+- [Links](https://docs.google.com/document/d/1WsfyQxGrkp2mK2MZg-u3Lgr36M446Y3kmOGsHnsBdYY/edit?usp=sharing)
 
 ## Technologies Used
 
